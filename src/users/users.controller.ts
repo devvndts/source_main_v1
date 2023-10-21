@@ -2,13 +2,14 @@ import { Controller, Get, Query,Post, Body, Patch, Param, Delete } from '@nestjs
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UsersModule } from './users.module';
+import { Public } from 'src/decorator/custom.decorator';
 
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly usersService: UsersService) {}
 
+  @Public()
   @Post()
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
@@ -33,6 +34,4 @@ export class UsersController {
   deleteUser(@Param('id') id: string){
     return this.usersService.deleteUser(id);
   }
-
-
 }
