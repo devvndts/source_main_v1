@@ -1,4 +1,3 @@
-import { ConfigService } from '@nestjs/config';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Injectable } from '@nestjs/common';
@@ -16,12 +15,10 @@ export class UsersService extends TypeOrmQueryService<Users> {
     @InjectRepository(Users) 
     private usersRepository: Repository<Users>
   ){
-
     super(usersRepository, { useSoftDelete: true });
   }
 
   async createUser(createUserDto: CreateUserDto) {
-
     const password = createUserDto.password;
     const saltRounds = 10;
     const salt = genSaltSync(saltRounds);
@@ -39,10 +36,11 @@ export class UsersService extends TypeOrmQueryService<Users> {
       select:{}
     })
   }
-  isCheckPass(pass: string, passUser: string){
-    return compareSync(pass, passUser); // false
 
+  isCheckPass(pass: string, passUser: string){
+    return  compareSync(pass, passUser);
   }
+
   async getUserByUuid(id: string){
     return await this.usersRepository.findOneBy({id:id})
   }
